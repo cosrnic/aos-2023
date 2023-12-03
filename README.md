@@ -8,3 +8,4 @@ All of these challenge submissions were created with [create-o7-app](https://git
 |-----|---------------- |
 | 1   | [link](/day-1/) |
 | 2   | [link](/day-2/) |
+| 3   | [link](/day-3/) |
