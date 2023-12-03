@@ -2,14 +2,15 @@
 	import type { dataType } from '$lib/server/routes/_app';
 	import { trpc } from '$lib/trpc';
 	import { onMount } from 'svelte';
+	import { tweened } from 'svelte/motion';
 	import { writable } from 'svelte/store';
 
 	const data = trpc.data.query();
 
 	let maxCapacity = 100;
-	let sledCapcity = 0;
+	let sledCapcity = tweened(0);
 
-	$: sledCapcity = $sledPresents.reduce((acc, item) => acc + item.weight, 0);
+	$: sledCapcity.set($sledPresents.reduce((acc, item) => acc + item.weight, 0));
 
 	let presents = writable<dataType[]>([]);
 	let sledPresents = writable<dataType[]>([]);
@@ -83,16 +84,22 @@
 			class="flex h-full w-auto flex-grow flex-col items-center justify-center p-4"
 		>
 			<div
-				class:bg-red-500={sledCapcity > maxCapacity}
-				class:border-red-600={sledCapcity > maxCapacity}
-				class:bg-green-500={sledCapcity <= maxCapacity}
-				class:border-green-600={sledCapcity <= maxCapacity}
+				class:bg-red-500={$sledCapcity > maxCapacity}
+				class:border-red-600={$sledCapcity > maxCapacity}
+				class:bg-green-500={$sledCapcity <= maxCapacity}
+				class:border-green-600={$sledCapcity <= maxCapacity}
 				class="flex aspect-square h-96 flex-col items-center justify-center rounded-full border-4"
 			>
 				<p class="text-2xl">Sled Capacity</p>
-				<p class="text-xl">{sledCapcity}</p>
+				<p class="text-xl">
+					{$sledCapcity.toFixed(2)}<span class="text-base text-neutral-200"
+						>kg</span
+					>
+				</p>
 				<p>/</p>
-				<p>{maxCapacity}</p>
+				<p class="text-xl">
+					{maxCapacity}<span class="text-base text-neutral-200">kg</span>
+				</p>
 			</div>
 		</div>
 	</main>
