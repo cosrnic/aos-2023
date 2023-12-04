@@ -8,8 +8,11 @@
 	>
 		<img src="/favicon.png" alt="heart" />
 		<p class="text-2xl">Santa's Heart Rate: {$heartRate}</p>
-		<div class="flex flex-row flex-wrap gap-2">
-			{$oldHeartRate}
+		<p class="text-lg">Previous Heart Rate</p>
+		<div class="flex w-full flex-row flex-wrap justify-center gap-2 text-sm">
+			{#each $oldHeartRate as heartrate}
+				<p>{heartrate}</p>
+			{/each}
 		</div>
 	</div>
 </main>
